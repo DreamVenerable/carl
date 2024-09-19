@@ -1,17 +1,17 @@
 # db/seeds.rb
 
 # Clear existing records
-# Category.destroy_all
-# Manufacturer.destroy_all
-# Part.destroy_all
-# Product.destroy_all
-# Variation.destroy_all
-# VehicleMake.destroy_all
-# VehicleModel.destroy_all
-# VehicleYear.destroy_all
-# Engine.destroy_all
-# Origin.destroy_all
-# Fitment.destroy_all
+Category.destroy_all
+Manufacturer.destroy_all
+Part.destroy_all
+Product.destroy_all
+Variation.destroy_all
+VehicleMake.destroy_all
+VehicleModel.destroy_all
+VehicleYear.destroy_all
+Engine.destroy_all
+Origin.destroy_all
+Fitment.destroy_all
 
 # Seed Categories
 category1 = Category.create(name: 'Engine Parts', ar_name: 'قطع غيار المحرك', image_path: 'engine_parts.png', sold_count: 0, in_stock_count: 100, added_date: DateTime.now)
@@ -33,7 +33,7 @@ model2 = VehicleModel.create(name_model: 'Mustang', model_name_ar: 'موستان
 year1 = VehicleYear.create(year: '2020', vehicle_model: model1)
 year2 = VehicleYear.create(year: '2021', vehicle_model: model2)
 
-# Seed Parts
+# Seed Parts (ensure the categories exist)
 part1 = Part.create(name: 'Oil Filter', ar_name: 'فلتر الزيت', image_path: 'oil_filter.png', added_date: DateTime.now, category_id: category1.id)
 part2 = Part.create(name: 'Brake Pad', ar_name: 'وسادة الفرامل', image_path: 'brake_pad.png', added_date: DateTime.now, category_id: category2.id)
 

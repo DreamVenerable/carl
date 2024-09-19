@@ -1,0 +1,47 @@
+<h1>Select Your Vehicle</h1>
+
+<%= form_with url: root_path, method: :get do %>
+  <div>
+    <label for="make">Car Make:</label>
+    <%= select_tag 'make_id', options_from_collection_for_select(@vehicle_makes, :id, :make_name, params[:make_id]), prompt: 'Select Make', onchange: 'this.form.submit();' %>
+  </div>
+<% end %>
+
+<% if params[:make_id] %>
+  <%= form_with url: root_path, method: :get do %>
+    <div>
+      <label for="model">Car Model:</label>
+      <%= select_tag 'model_id', options_from_collection_for_select(@models, :id, :name_model, params[:model_id]), prompt: 'Select Model', onchange: 'this.form.submit();' %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if params[:model_id] %>
+  <%= form_with url: root_path, method: :get do %>
+    <div>
+      <label for="year">Model Year:</label>
+      <%= select_tag 'year_id', options_from_collection_for_select(@years, :id, :year, params[:year_id]), prompt: 'Select Year', onchange: 'this.form.submit();' %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if params[:year_id] %>
+  <%= form_with url: root_path, method: :get do %>
+    <div>
+      <label for="engine">Engine:</label>
+      <%= select_tag 'engine_id', options_from_collection_for_select(@engines, :id, :engine_power, params[:engine_id]), prompt: 'Select Engine' %>
+    </div>
+    <%= submit_tag 'Search' %>
+  <% end %>
+<% end %>
+
+<% if @fitments.present? %>
+  <h2>Fitments:</h2>
+  <ul>
+    <% @fitments.each do |fitment| %>
+      <li><%= fitment.product.part.name %> - <%= fitment.product.part.ar_name %></li>
+    <% end %>
+  </ul>
+<% else %>
+    <h3>No fitment</h3>
+<% end %>
