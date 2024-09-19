@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  engine_power: MyString
+  vehicle_model: 1
+  vehicle_year: 1
+  power_kw: 1
+  power_ps: 1
+  fuel_type: MyString
+
+two:
+  engine_power: MyString
+  vehicle_model: 1
+  vehicle_year: 1
+  power_kw: 1
+  power_ps: 1
+  fuel_type: MyString

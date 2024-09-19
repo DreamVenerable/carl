@@ -1,0 +1,45 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  part_number: MyString
+  oem_number: MyString
+  part_id: 1
+  manufacturer_id: 1
+  retail_price_lyd: 1.5
+  base_price_lyd: 1.5
+  base_price_usd: 1.5
+  retail_price_usd: 1.5
+  stock_quantity: 1
+  sold_quantity: 1
+  start_date_availability: 2024-09-19 12:59:54
+  end_date_availability: 2024-09-19 12:59:54
+  is_external: false
+  shipping_days_from: 1
+  shipping_days_to: 1
+  status: MyString
+  warranty: MyString
+  universal_fit: false
+  image_path: MyString
+
+two:
+  id: 1
+  part_number: MyString
+  oem_number: MyString
+  part_id: 1
+  manufacturer_id: 1
+  retail_price_lyd: 1.5
+  base_price_lyd: 1.5
+  base_price_usd: 1.5
+  retail_price_usd: 1.5
+  stock_quantity: 1
+  sold_quantity: 1
+  start_date_availability: 2024-09-19 12:59:54
+  end_date_availability: 2024-09-19 12:59:54
+  is_external: false
+  shipping_days_from: 1
+  shipping_days_to: 1
+  status: MyString
+  warranty: MyString
+  universal_fit: false
+  image_path: MyString

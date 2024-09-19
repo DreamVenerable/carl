@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  origin_name: MyString
+  origin_name_ar: MyString
+  vehicle_model: 1
+
+two:
+  origin_name: MyString
+  origin_name_ar: MyString
+  vehicle_model: 1

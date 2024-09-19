@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: MyString
+  ar_name: MyString
+  image_path: MyString
+  sold_count: 1
+  in_stock_count: 1
+  added_date: 2024-09-19 12:54:39
+
+two:
+  id: 1
+  name: MyString
+  ar_name: MyString
+  image_path: MyString
+  sold_count: 1
+  in_stock_count: 1
+  added_date: 2024-09-19 12:54:39

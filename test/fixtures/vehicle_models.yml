@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name_model: MyString
+  model_name_ar: MyString
+  make_id: 1
+
+two:
+  id: 1
+  name_model: MyString
+  model_name_ar: MyString
+  make_id: 1
