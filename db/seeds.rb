@@ -1,71 +1,143 @@
 # db/seeds.rb
 
-# Clear existing records
+# Clear existing data
 Category.destroy_all
+Engine.destroy_all
+Fitment.destroy_all
 Manufacturer.destroy_all
+Origin.destroy_all
 Part.destroy_all
 Product.destroy_all
 Variation.destroy_all
 VehicleMake.destroy_all
 VehicleModel.destroy_all
 VehicleYear.destroy_all
-Engine.destroy_all
-Origin.destroy_all
-Fitment.destroy_all
 
-# Seed Categories
-category1 = Category.create(name: 'Engine Parts', ar_name: 'قطع غيار المحرك', image_path: 'engine_parts.png', sold_count: 0, in_stock_count: 100, added_date: DateTime.now)
-category2 = Category.create(name: 'Body Parts', ar_name: 'قطع غيار الجسم', image_path: 'body_parts.png', sold_count: 0, in_stock_count: 50, added_date: DateTime.now)
+# Create Categories
+categories = 5.times.map do |i|
+  Category.create!(
+    name: "Category #{i+1}",
+    ar_name: "فئة #{i+1}",
+    image_path: "path/to/image_#{i+1}.jpg",
+    sold_count: rand(1..100),
+    in_stock_count: rand(1..50),
+    added_date: DateTime.now
+  )
+end
 
-# Seed Manufacturers
-manufacturer1 = Manufacturer.create(name: 'ACME Corp', ar_name: 'شركة أكمي', image_path: 'acme.png')
-manufacturer2 = Manufacturer.create(name: 'Beta Industries', ar_name: 'صناعات بيتا', image_path: 'beta.png')
+# Create Manufacturers
+manufacturers = 3.times.map do |i|
+  Manufacturer.create!(
+    name: "Manufacturer #{i+1}",
+    ar_name: "المصنع #{i+1}",
+    image_path: "path/to/manufacturer_image_#{i+1}.jpg"
+  )
+end
 
-# Seed Vehicle Makes
-make1 = VehicleMake.create(make_name: 'Toyota', make_name_ar: 'تويوتا')
-make2 = VehicleMake.create(make_name: 'Ford', make_name_ar: 'فورد')
+# Create Parts and Products
+parts = categories.flat_map do |category|
+  5.times.map do |j|
+    part = Part.create!(
+      name: "Part #{j+1}",
+      ar_name: "جزء #{j+1}",
+      category_id: category.id,
+      image_path: "path/to/part_image_#{j+1}.jpg",
+      added_date: DateTime.now
+    )
 
-# Seed Vehicle Models
-model1 = VehicleModel.create(name_model: 'Camry', model_name_ar: 'كامري', vehicle_make: make1)
-model2 = VehicleModel.create(name_model: 'Mustang', model_name_ar: 'موستانغ', vehicle_make: make2)
+    2.times.map do |k|
+      product = Product.create!(
+        part_number: "PN#{j+1}#{k+1}",
+        oem_number: "OEM#{j+1}#{k+1}",
+        part_id: part.id,
+        manufacturer_id: manufacturers.sample.id,
+        retail_price_lyd: rand(100..500),
+        base_price_lyd: rand(50..250),
+        base_price_usd: rand(50..250),
+        retail_price_usd: rand(100..500),
+        stock_quantity: rand(1..100),
+        sold_quantity: rand(1..50),
+        start_date_availability: DateTime.now,
+        end_date_availability: DateTime.now + 1.year,
+        is_external: [ true, false ].sample,
+        shipping_days_from: rand(1..5),
+        shipping_days_to: rand(6..10),
+        status: "available",
+        warranty: "1 year",
+        universal_fit: [ true, false ].sample,
+        image_path: "path/to/product_image_#{j+1}#{k+1}.jpg"
+      )
 
-# Seed Vehicle Years
-year1 = VehicleYear.create(year: '2020', vehicle_model: model1)
-year2 = VehicleYear.create(year: '2021', vehicle_model: model2)
+      # Create variations for each product
+      2.times do |l|
+        Variation.create!(
+          product_id: product.id,
+          variation_name: "Variation #{l+1}",
+          variation_value: "Value #{l+1}",
+          variation_name_ar: "التغيير #{l+1}",
+          variation_value_ar: "القيمة #{l+1}"
+        )
+      end
+      product
+    end
+  end
+end
 
-# Seed Parts (ensure the categories exist)
-part1 = Part.create(name: 'Oil Filter', ar_name: 'فلتر الزيت', image_path: 'oil_filter.png', added_date: DateTime.now, category_id: category1.id)
-part2 = Part.create(name: 'Brake Pad', ar_name: 'وسادة الفرامل', image_path: 'brake_pad.png', added_date: DateTime.now, category_id: category2.id)
+# Create Vehicle Makes and Models
+kia = VehicleMake.create!(make_name: "Kia", make_name_ar: "كيا")
+models = [ 'Sorento', 'Sportage', 'Optima' ].map do |model_name|
+  VehicleModel.create!(name_model: model_name, model_name_ar: model_name, vehicle_make_id: kia.id)
+end
 
-# Seed Products
-product1 = Product.create(part_number: 'P1234', oem_number: 'OEM1234', part_id: part1.id, manufacturer_id: manufacturer1.id,
-                          retail_price_lyd: 50.0, base_price_lyd: 30.0, base_price_usd: 20.0,
-                          retail_price_usd: 35.0, stock_quantity: 100, sold_quantity: 10,
-                          start_date_availability: DateTime.now, end_date_availability: nil,
-                          is_external: false, shipping_days_from: 1, shipping_days_to: 3,
-                          status: 'available', warranty: '1 year', universal_fit: true, image_path: 'oil_filter_product.png')
+# Create Vehicle Years and Engines
+years = models.flat_map do |model|
+  3.times.map do |y|
+    year = VehicleYear.create!(year: (2020 - y).to_s, vehicle_model_id: model.id)
 
-product2 = Product.create(part_number: 'P5678', oem_number: 'OEM5678', part_id: part2.id, manufacturer_id: manufacturer2.id,
-                          retail_price_lyd: 75.0, base_price_lyd: 55.0, base_price_usd: 40.0,
-                          retail_price_usd: 60.0, stock_quantity: 50, sold_quantity: 5,
-                          start_date_availability: DateTime.now, end_date_availability: nil,
-                          is_external: false, shipping_days_from: 2, shipping_days_to: 5,
-                          status: 'available', warranty: '6 months', universal_fit: false, image_path: 'brake_pad_product.png')
+    # Create Engines
+    2.times.map do |engine_num|
+      Engine.create!(
+        engine_power: "Power #{engine_num + 1} HP",
+        vehicle_model_id: model.id,
+        vehicle_year_id: year.id,
+        power_kw: rand(100..200),
+        power_ps: rand(100..200),
+        fuel_type: "Petrol"
+      )
+    end
+    year
+  end
+end
 
-# Seed Variations
-variation1 = Variation.create(product_id: product1.id, variation_name: 'Size', variation_value: 'Small', variation_name_ar: 'حجم', variation_value_ar: 'صغير')
-variation2 = Variation.create(product_id: product2.id, variation_name: 'Color', variation_value: 'Red', variation_name_ar: 'لون', variation_value_ar: 'أحمر')
+# Create Origins
+models.each do |model|
+  2.times do
+    origin_sample = [ [ "Korea", "كوريا" ], [ "Canada", "كندا" ] ].sample
+    Origin.create!(
+      origin_name: origin_sample[0],
+      origin_name_ar: origin_sample[1],
+      vehicle_model_id: model.id
+    )
+  end
+end
 
-# Seed Engines
-engine1 = Engine.create(engine_power: '200 HP', vehicle_model_id: model1.id, vehicle_year_id: year1.id, power_kw: 147, power_ps: 200, fuel_type: 'Petrol')
-engine2 = Engine.create(engine_power: '300 HP', vehicle_model_id: model2.id, vehicle_year_id: year2.id, power_kw: 221, power_ps: 300, fuel_type: 'Petrol')
+# Create Fitments
+Product.all.each do |product|
+  vehicle_models = VehicleModel.all.sample(2) # Randomly sample 2 vehicle models
+  vehicle_models.each do |vehicle_model|
+    vehicle_years = vehicle_model.vehicle_years.sample(1) # Randomly sample 1 year
+    vehicle_years.each do |vehicle_year|
+      engines = vehicle_year.engines.sample(2) # Randomly sample 2 engines for the year
+      engines.each do |engine|
+        Fitment.create!(
+          product_id: product.id,
+          vehicle_year_id: vehicle_year.id,
+          vehicle_model_id: vehicle_model.id,
+          engine_id: engine.id
+        )
+      end
+    end
+  end
+end
 
-# Seed Origins
-origin1 = Origin.create(origin_name: 'Japan', origin_name_ar: 'اليابان', vehicle_model_id: model1.id)
-origin2 = Origin.create(origin_name: 'USA', origin_name_ar: 'الولايات المتحدة', vehicle_model_id: model2.id)
-
-# Seed Fitments
-Fitment.create(product_id: product1.id, vehicle_year_id: year1.id, vehicle_model_id: model1.id, engine_id: engine1.id)
-Fitment.create(product_id: product2.id, vehicle_year_id: year2.id, vehicle_model_id: model2.id, engine_id: engine2.id)
-
-puts "Seed data created successfully!"
+puts "Seeding Complete!"
