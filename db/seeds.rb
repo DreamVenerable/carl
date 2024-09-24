@@ -111,11 +111,11 @@ end
 
 # Create Origins
 models.each do |model|
-  2.times do
-    origin_sample = [ [ "Korea", "كوريا" ], [ "Canada", "كندا" ] ].sample
+  2.times do |n|
+    origin_sample = [ [ "Korea", "كوريا" ], [ "Canada", "كندا" ] ]
     Origin.create!(
-      origin_name: origin_sample[0],
-      origin_name_ar: origin_sample[1],
+      origin_name: origin_sample[n][0],
+      origin_name_ar: origin_sample[n][1],
       vehicle_model_id: model.id
     )
   end
@@ -129,11 +129,14 @@ Product.all.each do |product|
     vehicle_years.each do |vehicle_year|
       engines = vehicle_year.engines.sample(2) # Randomly sample 2 engines for the year
       engines.each do |engine|
+        origin = Origin.where(vehicle_model_id: vehicle_model.id).sample # Find an origin for the vehicle model
+
         Fitment.create!(
           product_id: product.id,
           vehicle_year_id: vehicle_year.id,
           vehicle_model_id: vehicle_model.id,
-          engine_id: engine.id
+          engine_id: engine.id,
+          origin_id: origin.id
         )
       end
     end

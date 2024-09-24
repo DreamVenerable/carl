@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_19_122830) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_24_142532) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "ar_name"
@@ -42,7 +42,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_19_122830) do
     t.integer "engine_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "origin_id"
     t.index ["engine_id"], name: "index_fitments_on_engine_id"
+    t.index ["origin_id"], name: "index_fitments_on_origin_id"
     t.index ["product_id"], name: "index_fitments_on_product_id"
     t.index ["vehicle_model_id"], name: "index_fitments_on_vehicle_model_id"
     t.index ["vehicle_year_id"], name: "index_fitments_on_vehicle_year_id"
@@ -140,6 +142,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_19_122830) do
   add_foreign_key "engines", "vehicle_models"
   add_foreign_key "engines", "vehicle_years"
   add_foreign_key "fitments", "engines"
+  add_foreign_key "fitments", "origins"
   add_foreign_key "fitments", "products"
   add_foreign_key "fitments", "vehicle_models"
   add_foreign_key "fitments", "vehicle_years"

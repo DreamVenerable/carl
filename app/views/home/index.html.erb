@@ -20,6 +20,12 @@
     <%= select_tag :vehicle_year_id, options_from_collection_for_select(@vehicle_years, :id, :year, params[:vehicle_year_id]), prompt: "Choose Year", onchange: 'this.form.submit();' %>
   </div>
 
+    <!-- Origin Dropdown -->
+  <div>
+    <%= label_tag :origin_id, "Select Origin:" %>
+    <%= select_tag :origin_id, options_from_collection_for_select(@origins, :id, :origin_name, params[:origin_id]), prompt: "Choose Origin", onchange: 'this.form.submit();' %>
+  </div>
+
   <!-- Engine Dropdown -->
   <div>
     <%= label_tag :engine_id, "Select Engine:" %>
